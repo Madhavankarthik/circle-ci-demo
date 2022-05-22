@@ -18,14 +18,14 @@ jobs:
       - image: "circleci/python:3.10.1"
     steps:
       - checkout
-      - run: echo "deployment started in "$CURRENT_ENV
+      - run: echo "deployment started in $CURRENT_ENV"
       - run: echo "deployment successful"
   deploy-prod:
     docker:
       - image: "circleci/python:3.10.1"
     steps:
       - checkout
-      - run: echo "deployment started in "$CURRENT_ENV
+      - run: echo "deployment started in $CURRENT_ENV"
       - run: echo "deployment successful"
 workflows:
   main:
