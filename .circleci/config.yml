@@ -57,7 +57,9 @@ workflows:
       - deploy-dev:
           context: demo-dev
           requires:
-            - test
+            - unit-test
+            - integration-test
+            - component-test
       - approve-deploy-to-prod:
           type: approval
           requires:
