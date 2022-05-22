@@ -1,0 +1,48 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: "circleci/python:3.10.1"
+    steps:
+      - checkout
+      - run: python3 main.py
+  test:
+    docker:
+      - image: "circleci/python:3.10.1"
+    steps:
+      - checkout
+      - run: python3 main-test.py
+  deploy-dev:
+    docker:
+      - image: "circleci/python:3.10.1"
+    steps:
+      - checkout
+      - run: echo "deployment started in "$CURRENT_ENV
+      - run: echo "deployment successful"
+  deploy-prod:
+    docker:
+      - image: "circleci/python:3.10.1"
+    steps:
+      - checkout
+      - run: echo "deployment started in "$CURRENT_ENV
+      - run: echo "deployment successful"
+workflows:
+  main:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deploy-dev:
+          context: demo-dev
+          requires:
+            - test
+      - approve-deploy-to-prod:
+          type: approval
+          requires:
+            - deploy-dev
+      - deploy-prod:
+          context: demo-prod
+          requires:
+            - approve-deploy-to-prod
