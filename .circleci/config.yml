@@ -7,12 +7,26 @@ jobs:
     steps:
       - checkout
       - run: python3 src/my_sum.py
-  test:
+  unit-test:
     docker:
       - image: "circleci/python:3.10.1"
     steps:
       - checkout
       - run: python -m unittest test
+  integration-test:
+    docker:
+      - image: "circleci/python:3.10.1"
+    steps:
+      - checkout
+      - run: echo "integration test started"
+      - run: echo "integration test completed"
+  component-test:
+    docker:
+      - image: "circleci/python:3.10.1"
+    steps:
+      - checkout
+      - run: echo "integration test started"
+      - run: echo "integration test completed"
   deploy-dev:
     docker:
       - image: "circleci/python:3.10.1"
@@ -31,7 +45,13 @@ workflows:
   main:
     jobs:
       - build
-      - test:
+      - unit-test:
+          requires:
+            - build
+      - integration-test:
+          requires:
+            - build
+      - component-test:
           requires:
             - build
       - deploy-dev:
