@@ -39,6 +39,7 @@ jobs:
       - checkout
       - run: echo "deployment started in $CURRENT_ENV"
       - run: echo "deployment successful"
+
 workflows:
   main:
     jobs:
