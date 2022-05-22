@@ -3,40 +3,38 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: "circleci/python:3.10.1"
+      - image: "circleci/python:3.8"
     steps:
       - checkout
       - run: python3 src/my_sum.py
   unit-test:
     docker:
-      - image: "circleci/python:3.10.1"
+      - image: "circleci/python:3.8"
     steps:
       - checkout
-      - run: python -m unittest test
+      - run: python -m unittest discover test/unit
   integration-test:
     docker:
-      - image: "circleci/python:3.10.1"
+      - image: "circleci/python:3.8"
     steps:
       - checkout
-      - run: echo "integration test started"
-      - run: echo "integration test completed"
+      - run: python -m unittest discover test/integration
   component-test:
     docker:
-      - image: "circleci/python:3.10.1"
+      - image: "circleci/python:3.8"
     steps:
       - checkout
-      - run: echo "integration test started"
-      - run: echo "integration test completed"
+      - run: python -m unittest discover test/component
   deploy-dev:
     docker:
-      - image: "circleci/python:3.10.1"
+      - image: "circleci/python:3.8"
     steps:
       - checkout
       - run: echo "deployment started in $CURRENT_ENV"
       - run: echo "deployment successful"
   deploy-prod:
     docker:
-      - image: "circleci/python:3.10.1"
+      - image: "circleci/python:3.8"
     steps:
       - checkout
       - run: echo "deployment started in $CURRENT_ENV"
