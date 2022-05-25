@@ -10,9 +10,10 @@ jobs:
   unit-test:
     docker:
       - image: "circleci/python:3.8"
+    parallelism: 5
     steps:
       - checkout
-      - run: python -m unittest discover test/unit
+      - run: python -m unittest discover test/unit | circleci tests split --split-by=timings
   integration-test:
     docker:
       - image: "circleci/python:3.8"
