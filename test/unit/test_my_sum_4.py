@@ -3,7 +3,7 @@ import unittest
 from src.my_sum import my_sum
 
 
-class TestSum(unittest.TestCase):
+class TestSumFour(unittest.TestCase):
     def test_list_int(self):
         data = [1, 2, 3]
         result = my_sum(data)
