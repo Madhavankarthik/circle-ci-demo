@@ -25,6 +25,12 @@ jobs:
     steps:
       - checkout
       - run: python -m unittest discover test/component
+  e2e-test:
+    docker:
+      - image: "circleci/python:3.8"
+    steps:
+      - checkout
+      - run: python -m unittest discover test/component
   deploy-dev:
     docker:
       - image: "circleci/python:3.8"
@@ -42,6 +48,9 @@ jobs:
 
 workflows:
   main:
+    when:
+      not:
+        equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
     jobs:
       - build
       - unit-test:
@@ -67,3 +76,14 @@ workflows:
           context: demo-prod
           requires:
             - approve-deploy-to-prod
+
+  daily-e2e-workflow:
+    when:
+      and:
+        - equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+        - equal: [ "Daily E2E test", << pipeline.schedule.name >> ]
+    jobs:
+      - build
+      - e2e-test:
+          requires:
+            - build
