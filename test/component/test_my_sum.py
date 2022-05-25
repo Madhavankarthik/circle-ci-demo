@@ -49,7 +49,7 @@ class TestSum(unittest.TestCase):
         result = my_sum(data)
         self.assertEqual(result, 6)
 
-    def test_list_int_10(self):
+    def test_list_int_3(self):
         data = [1, 2, 3]
         result = my_sum(data)
         self.assertEqual(result, 6)
