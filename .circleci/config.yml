@@ -4,6 +4,7 @@ jobs:
   build:
     docker:
       - image: "circleci/python:3.8"
+    parallelism: 3
     steps:
       - checkout
       - run: python3 src/my_sum.py
@@ -12,7 +13,8 @@ jobs:
       - image: "circleci/python:3.8"
     steps:
       - checkout
-      - run: python -m unittest discover test/unit
+      - run: circleci tests glob "test/unit/test_*.py" | circleci tests split  > /tmp/tests-to-run
+      - run: python -m unittest $(cat /tmp/tests-to-run)
   integration-test:
     docker:
       - image: "circleci/python:3.8"
